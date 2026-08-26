@@ -1,0 +1,10 @@
+{
+  "name": "sidequest-platform",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix apps/admin run dev",
+    "build": "npm --prefix apps/admin run build",
+    "test": "npm --prefix apps/admin run test",
+    "typecheck": "npm --prefix apps/admin run typecheck"
+  }
+}
