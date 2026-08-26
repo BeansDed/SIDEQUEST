@@ -1,0 +1,2 @@
+import type{OperationalRecord}from"@/lib/data/types";import{ResourceTable,StatusBadge}from"@/components/data/resource-table";
+export function AuditTable({entries}:{entries:OperationalRecord[]}){return <ResourceTable caption="Immutable audit log" rows={entries} columns={[{label:"Action",render:x=><span className="primary-cell"><strong>{x.title}</strong><small>{x.detail}</small></span>},{label:"Actor & time",render:x=>x.meta},{label:"Integrity",render:x=><StatusBadge status={x.status}/>},{label:"Receipt",render:x=><code>{x.id.toUpperCase()}</code>}]} />}
