@@ -1,0 +1,2 @@
+import Link from "next/link";import{notFound}from"next/navigation";import{ReportDetail}from"@/features/moderation/report-detail";import{getAdminRepository}from"@/lib/data/provider";
+export default async function ReportPage({params}:{params:Promise<{id:string}>}){const{id}=await params;const report=(await getAdminRepository().listReports()).find(x=>x.id===id);if(!report)notFound();return <div className="page-stack"><div className="breadcrumb"><Link href="/moderation">Moderation</Link><span>/</span><strong>{report.id}</strong></div><ReportDetail report={report}/></div>}

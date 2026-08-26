@@ -1,0 +1,4 @@
+import { PageIntro } from "@/components/layout/page-intro";
+import { ReportQueue } from "@/features/moderation/report-queue";
+import { getAdminRepository } from "@/lib/data/provider";
+export default async function ModerationPage(){const reports=await getAdminRepository().listReports();return <div className="page-stack"><PageIntro eyebrow="TRUST & SAFETY" title="Moderation" description="Prioritize immediate harm, review only necessary evidence, and document every decision."/><div className="filter-bar"><input placeholder="Search case or subject…"/><select><option>Open & in review</option><option>All cases</option></select><select><option>All priorities</option><option>Urgent</option></select><span>{reports.filter(x=>["open","in_review"].includes(x.status)).length} active</span></div><ReportQueue reports={reports}/></div>}
