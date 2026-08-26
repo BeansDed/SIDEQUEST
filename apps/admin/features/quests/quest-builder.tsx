@@ -1,0 +1,16 @@
+"use client";
+import { useState } from "react";
+import { GripVertical, Plus, Save } from "lucide-react";
+import type { QuestRecord } from "@/lib/data/types";
+import { QuestPreview } from "./quest-preview";
+
+export function QuestBuilder({ quest }: { quest: QuestRecord }) {
+  const [safetyMessage, setSafetyMessage] = useState(quest.safetyMessage);
+  const [error, setError] = useState(""); const [notice, setNotice] = useState("");
+  function publish() { if (safetyMessage.trim().length < 10) { setNotice(""); setError("Safety message is required before publishing."); return; } setError(""); setNotice("Quest published as a new immutable version."); }
+  return <div className="editor-layout"><div className="editor-main">{error ? <div className="error-banner" role="alert">{error}</div> : null}{notice ? <div className="success-toast" role="status">{notice}</div> : null}
+    <section className="form-section"><div className="section-heading"><span>01</span><div><h2>Quest setup</h2><p>The promise and difficulty.</p></div></div><div className="form-grid"><label className="field field-wide"><span>Quest title</span><input defaultValue={quest.title} /></label><label className="field"><span>Difficulty</span><select defaultValue={quest.difficulty}><option>easy</option><option>medium</option><option>hard</option></select></label><label className="field"><span>Duration</span><input type="number" defaultValue={quest.duration} /></label><label className="field"><span>XP reward</span><input type="number" defaultValue={quest.xp} /></label><label className="field"><span>Rare condition</span><input placeholder="Optional surprise condition" /></label></div></section>
+    <section className="form-section"><div className="section-heading"><span>02</span><div><h2>Objectives</h2><p>Ordered, concrete actions.</p></div></div><div className="objective-list">{quest.objectives.map((objective,index) => <label key={objective}><GripVertical aria-hidden="true" size={16} /><span>{index+1}</span><input defaultValue={objective} /></label>)}<button className="button" type="button"><Plus size={14} />Add objective</button></div></section>
+    <section className="form-section"><div className="section-heading"><span>03</span><div><h2>Proof & safety</h2><p>Specific guardrails before launch.</p></div></div><div className="form-grid"><label className="field field-full"><span>Proof rule</span><textarea rows={3} defaultValue="Submit one in-app photo without photographing strangers." /></label><label className="field field-full"><span>Safety message</span><textarea rows={3} value={safetyMessage} onChange={(event) => setSafetyMessage(event.target.value)} aria-invalid={Boolean(error)} /></label></div></section>
+  </div><aside className="editor-aside"><QuestPreview quest={{...quest,safetyMessage}} /><div className="publish-card"><span className="eyebrow">VERSION CONTROL</span><h3>{quest.status === "active" ? "Changes create v2" : "Draft version 1"}</h3><p>Published quest versions never change beneath an active participant.</p><button className="button" type="button"><Save size={14} />Save draft</button><button className="button button-primary" type="button" onClick={publish}>Publish quest</button></div></aside></div>;
+}

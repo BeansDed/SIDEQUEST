@@ -483,6 +483,22 @@ main:focus {
 .placement p { margin: 0; font-weight: 700; }
 .placement small { margin: 5px 0 18px; color: rgb(255 249 241 / 70%); }
 .placement .button { color: var(--espresso-950); }
+.quest-preview { min-height: 360px; display: flex; flex-direction: column; padding: 24px; border-radius: 24px; color: var(--oat-50); background: radial-gradient(circle at 82% 12%,rgb(216 195 239 / 48%) 0 16%,transparent 16.5%),linear-gradient(155deg,#503527,#241713 72%); box-shadow: var(--shadow); }
+.quest-preview h3 { max-width: 220px; margin: 30px 0 8px; font: 700 28px/1.05 var(--font-display),sans-serif; letter-spacing: -.05em; }
+.quest-preview > p { color: rgb(255 249 241 / 65%); font-size: 10px; }
+.quest-preview ol { display: grid; gap: 8px; padding-left: 19px; font-size: 11px; line-height: 1.5; }
+.quest-preview footer { display: flex; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 15px; border-top: 1px solid rgb(255 249 241 / 15%); font-size: 10px; }
+.quest-preview footer span,.quest-preview footer strong { display:flex;align-items:center;gap:5px; }
+.quest-preview footer strong { color: #d8c3ef; }
+.objective-list { display: grid; gap: 9px; }
+.objective-list label { display: grid; grid-template-columns: auto 25px 1fr; align-items: center; gap: 7px; }
+.objective-list label > span { width: 24px; height: 24px; display:grid;place-items:center;border-radius:50%;background:var(--crema-100);font:600 9px var(--font-mono),monospace; }
+.objective-list input,.inline-form input { min-height: 40px;padding:0 11px;border:1px solid var(--crema-200);border-radius:10px;background:#fffdf9;font-size:10px; }
+.error-banner { padding: 12px; border: 1px solid #dfb2a7; border-radius: 12px; color: #8b3e32; background: #fff0ec; font-size: 11px; }
+.xp-panel { display:flex;align-items:center;justify-content:space-between;gap:20px; }
+.xp-panel h2 { margin:6px 0;font:650 20px var(--font-display),sans-serif; }
+.xp-panel p { margin:0;color:var(--ink-muted);font-size:10px; }
+.inline-form { display:grid;grid-template-columns:repeat(3,minmax(110px,1fr)) auto;gap:8px; }
 
 @media (max-width: 900px) {
   .admin-shell {
@@ -558,6 +574,8 @@ main:focus {
   .editor-aside { position: static; grid-template-columns: 1fr 1fr; }
   .form-section { grid-template-columns: 1fr; }
   .placement-grid { grid-template-columns: 1fr; }
+  .xp-panel { align-items:stretch;flex-direction:column; }
+  .inline-form { grid-template-columns:1fr 1fr; }
 }
 
 @media (max-width: 560px) {
@@ -579,6 +597,7 @@ main:focus {
   .filter-bar span { margin-left: 0; }
   .form-grid, .check-grid, .editor-aside { grid-template-columns: 1fr; }
   .field-wide, .field-full { grid-column: span 1; }
+  .inline-form { grid-template-columns:1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
