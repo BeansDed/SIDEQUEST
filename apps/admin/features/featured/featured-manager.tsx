@@ -1,0 +1,2 @@
+import type { CafeRecord } from "@/lib/data/types";
+export function FeaturedManager({ cafes }: { cafes: CafeRecord[] }) { return <div className="placement-grid">{["Home hero","Discovery mix","Weekend picks"].map((surface,index) => <section className="placement" key={surface}><span className="eyebrow">SURFACE {index+1}</span><h2>{surface}</h2><p>{cafes[index].name}</p><small>{index === 0 ? "Live now · ends Sunday" : "Scheduled rotation"}</small><button className="button">Change placement</button></section>)}</div>; }

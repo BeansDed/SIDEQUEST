@@ -1,0 +1,20 @@
+"use client";
+
+import { useState } from "react";
+import { CheckCircle2, Eye, ImagePlus, MapPin, Save } from "lucide-react";
+import type { CafeRecord } from "@/lib/data/types";
+import { can, type StaffRole } from "@/lib/roles";
+import { calculateCafeCompleteness } from "./completeness";
+
+export function CafeEditor({ cafe, role = "super_admin" }: { cafe: CafeRecord; role?: StaffRole }) {
+  const [notice, setNotice] = useState("");
+  const completeness = calculateCafeCompleteness(cafe);
+  const canPublish = can(role, "cafe:publish") && completeness.blocking.length === 0;
+  return <div className="editor-layout"><div className="editor-main">
+    {notice ? <div className="success-toast" role="status"><CheckCircle2 aria-hidden="true" />{notice}</div> : null}
+    <section className="form-section"><div className="section-heading"><span>01</span><div><h2>Identity</h2><p>How explorers recognize this café.</p></div></div><div className="form-grid"><label className="field field-wide"><span>Café name</span><input defaultValue={cafe.name} /></label><label className="field"><span>Slug</span><input defaultValue={cafe.slug} /></label><label className="field"><span>Price level</span><select defaultValue={cafe.priceLevel}><option value="1">₱</option><option value="2">₱₱</option><option value="3">₱₱₱</option><option value="4">₱₱₱₱</option></select></label><label className="field field-full"><span>Discovery description</span><textarea rows={4} defaultValue={cafe.description} /><small>Describe the feeling and useful details—no generic marketing copy.</small></label></div></section>
+    <section className="form-section"><div className="section-heading"><span>02</span><div><h2>Branch & hours</h2><p>Location facts used by maps and “open now”.</p></div></div><div className="form-grid"><label className="field field-wide"><span>Address</span><input defaultValue={cafe.address} /></label><label className="field"><span>City</span><input defaultValue={cafe.city} /></label><label className="field"><span>Timezone</span><input defaultValue="Asia/Manila" /></label><label className="field field-full"><span>Weekly hours</span><input defaultValue={cafe.hours} /></label></div></section>
+    <section className="form-section"><div className="section-heading"><span>03</span><div><h2>Vibes & utility</h2><p>Keep discovery tags specific and verifiable.</p></div></div><div className="check-grid">{["Quiet Focus","Soft Hours","Study Date","Main Character","Power Outlets","Plant Friendly"].map((tag) => <label key={tag}><input type="checkbox" defaultChecked={cafe.vibes.includes(tag)} /> <span>{tag}</span></label>)}</div></section>
+    <section className="form-section"><div className="section-heading"><span>04</span><div><h2>Photos</h2><p>Only approved assets can appear in the consumer app.</p></div></div><button className="upload-well" type="button"><ImagePlus aria-hidden="true" /><strong>Add café photos</strong><small>JPG, PNG, or WebP · strip location metadata on upload</small></button></section>
+  </div><aside className="editor-aside"><div className="preview-card"><span className="eyebrow">MOBILE PREVIEW</span><div className="preview-photo"><Eye aria-hidden="true" /></div><h3>{cafe.name}</h3><p><MapPin size={13} /> {cafe.city} · {cafe.spend}</p><div className="tag-row">{cafe.vibes.map((vibe) => <i key={vibe}>{vibe}</i>)}</div></div><div className="publish-card"><div className="completion-ring" style={{ "--score": `${completeness.score * 3.6}deg` } as React.CSSProperties}><strong>{completeness.score}%</strong></div><div><h3>Ready to serve?</h3>{completeness.blocking.length ? <p>{completeness.blocking.length} publication blockers: {completeness.blocking.join(", ")}.</p> : <p>All required content is present and approved.</p>}</div><button className="button" type="button" onClick={() => setNotice("Draft saved")}><Save size={14} />Save draft</button><button className="button button-primary" type="button" disabled={!canPublish} onClick={() => setNotice("Café published")} aria-label="Publish café">Publish café</button></div></aside></div>;
+}

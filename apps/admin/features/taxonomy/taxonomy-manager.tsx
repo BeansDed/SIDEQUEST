@@ -1,0 +1,3 @@
+import type { OperationalRecord } from "@/lib/data/types";
+import { ResourceTable, StatusBadge } from "@/components/data/resource-table";
+export function TaxonomyManager({ tags }: { tags: OperationalRecord[] }) { return <ResourceTable caption="Discovery taxonomy" rows={tags} columns={[{ label: "Tag", render: (x) => <span className="primary-cell"><strong>{x.title}</strong><small>{x.detail}</small></span> },{ label: "Order", render: (x) => x.meta },{ label: "Status", render: (x) => <StatusBadge status={x.status} /> },{ label: "Action", render: () => <button className="text-button">Edit</button> }]} />; }

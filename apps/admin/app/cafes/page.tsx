@@ -1,0 +1,5 @@
+import Link from "next/link";
+import { CafeTable } from "@/features/cafes/cafe-table";
+import { PageIntro } from "@/components/layout/page-intro";
+import { getAdminRepository } from "@/lib/data/provider";
+export default async function CafesPage() { const cafes = await getAdminRepository().listCafes(); return <div className="page-stack"><PageIntro eyebrow="CONTENT OPERATIONS" title="Cafés" description="Keep every recommendation accurate, useful, and genuinely worth leaving the house for." actions={<Link className="button button-primary" href="/cafes/new">Add café</Link>} /><div className="filter-bar"><input aria-label="Search cafés" placeholder="Search café, city, or vibe…" /><select aria-label="Filter café status"><option>All statuses</option><option>Published</option><option>Draft</option><option>Archived</option></select><select aria-label="Filter café city"><option>All cities</option><option>Makati</option><option>Quezon City</option></select><span>{cafes.length} listings</span></div><CafeTable cafes={cafes} /></div>; }
