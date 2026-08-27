@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { ConsumerShell } from "@/features/consumer/consumer-shell";
 import { ConsumerProvider } from "@/features/consumer/consumer-store";
+import "@/features/consumer/consumer.css";
 
 export const metadata: Metadata = {
   title: "Café discovery",

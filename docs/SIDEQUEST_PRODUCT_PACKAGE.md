@@ -3,7 +3,7 @@
 **Product:** SIDEQUEST Café Discovery  
 **Direction:** Mobile-first consumer experience plus responsive operations platform  
 **Positioning:** Find the café that fits the moment  
-**Status:** Admin platform and backend foundation implemented; consumer mobile client is the next build phase
+**Status:** Consumer mobile web app, admin platform, Figma system, and backend foundation implemented in demo-ready form
 
 ## 1. Executive summary
 
@@ -546,9 +546,9 @@ Launch in one dense city or university area where café data can be manually ver
 - Café, quest, moderation, operations, analytics, audit, and health admin modules
 - Responsive UI, automated tests, production build, and deployment configuration
 
-### Phase 2 — Consumer MVP
+### Phase 2 — Consumer MVP — implemented in persistent demo mode
 
-- Authentication, onboarding, discovery, map/list, café detail, saves, quests, reviews, profile, and settings
+- Onboarding, discovery, map/list, café detail, saves, collections, quests, reviews, social, profile, achievements, settings, and subscription presentation
 - Connect client to production Supabase project
 - Instrument consent-aware analytics and error monitoring
 
@@ -581,12 +581,11 @@ Implemented in this repository:
 - Role-aware authentication boundary and capability model
 - Supabase schema, RLS policies, storage expectations, seed data, and contract tests
 - Café, quest, moderation, operations, analytics, staff, audit, and health workflows
+- Mobile-first consumer app with discovery filters, café details, saved collections, reviews, quests, XP, social, profile, settings, subscription, and resilient UI states
 - Figma product screens, design tokens, typography/effect styles, reusable component states, and documented patterns
 
-Still required for the complete consumer product:
+Still required for a public production launch:
 
-- Consumer mobile/web client implementation
 - A user-owned Supabase project and production credentials
 - Live database policy tests with Docker or a linked Supabase environment
 - Deployment accounts, domain, maps provider, email provider, monitoring, and legal/policy approval
-
