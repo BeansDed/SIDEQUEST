@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Manrope, Sora } from "next/font/google";
-import { AdminShell } from "@/components/layout/admin-shell";
 import "./globals.css";
-import { getAdminSession } from "@/lib/auth/session";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -24,16 +22,15 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SIDEQUEST Café Operations",
-  description: "Café discovery operations and moderation dashboard.",
+  title: { default: "SIDEQUEST", template: "%s · SIDEQUEST" },
+  description: "Find the café that fits the moment.",
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const session = await getAdminSession();
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${sora.variable} ${manrope.variable} ${plexMono.variable}`}>
       <body>
-        <AdminShell role={session?.role ?? "analyst"}>{children}</AdminShell>
+        {children}
         {process.env.NODE_ENV === "development" ? <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async /> : null}
       </body>
     </html>
