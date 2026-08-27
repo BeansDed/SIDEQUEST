@@ -1,3 +1,3 @@
-export function StatusCard({ label, value, note, tone = "sage" }: { label: string; value: string; note: string; tone?: "sage" | "lavender" | "terracotta" }) {
+export function StatusCard({ label, value, note, tone = "sage" }: { label: string; value: string; note: string; tone?: "sage" | "caramel" | "terracotta" }) {
   return <article className={`status-card tone-${tone}`}><span>{label}</span><strong>{value}</strong><p>{note}</p></article>;
 }

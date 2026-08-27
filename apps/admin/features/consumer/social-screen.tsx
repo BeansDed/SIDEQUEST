@@ -1,7 +1,7 @@
 import { LockKeyhole, UserPlus, Users } from "lucide-react";
 
 const activity = [
-  { initials: "AY", name: "Aya", action: "saved Morrow Coffee", detail: "quiet reset", tone: "lavender" },
+  { initials: "AY", name: "Aya", action: "saved Morrow Coffee", detail: "quiet reset", tone: "caramel" },
   { initials: "KN", name: "Ken", action: "finished a sidequest", detail: "+90 XP", tone: "sage" },
   { initials: "BE", name: "Bea", action: "shared a collection", detail: "late-night spots", tone: "roast" },
 ];

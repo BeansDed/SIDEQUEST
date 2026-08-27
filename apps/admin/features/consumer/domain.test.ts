@@ -10,6 +10,14 @@ import {
 } from "./domain";
 
 describe("consumer discovery domain", () => {
+  it("ships every café with local real-photo metadata and approved café tones", () => {
+    for (const cafe of cafes) {
+      expect(cafe.image).toMatch(/^\/cafes\/[a-z0-9-]+\.jpg$/);
+      expect(cafe.imageAlt.length).toBeGreaterThan(24);
+      expect(["roast", "sage", "caramel", "terracotta"]).toContain(cafe.color);
+    }
+  });
+
   it("filters cafés by every selected intent instead of returning partial matches", () => {
     const results = filterCafes(cafes, {
       vibes: ["quiet"],

@@ -13,8 +13,8 @@ export function CafeCard({ cafe, preferences, featured = false }: { cafe: Cafe; 
   return (
     <article className={`consumer-cafe-card cafe-tone-${cafe.color}${featured ? " is-featured" : ""}`}>
       <Link href={`/app/cafes/${cafe.id}`} className="cafe-art" aria-label={`View ${cafe.name}`}>
+        <img src={cafe.image} alt={cafe.imageAlt} />
         <span>{score}% match</span>
-        <i aria-hidden="true" />
       </Link>
       <div className="cafe-card-copy">
         <div className="cafe-card-title">

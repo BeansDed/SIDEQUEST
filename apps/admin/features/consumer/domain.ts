@@ -15,7 +15,9 @@ export type Cafe = {
   openNow: boolean;
   closesAt: string;
   verifiedDaysAgo: number;
-  color: "roast" | "sage" | "lavender" | "terracotta";
+  color: "roast" | "sage" | "caramel" | "terracotta";
+  image: string;
+  imageAlt: string;
 };
 
 export type DiscoveryFilters = {
@@ -74,6 +76,8 @@ export const cafes: Cafe[] = [
     closesAt: "10:00 PM",
     verifiedDaysAgo: 5,
     color: "roast",
+    image: "/cafes/soft-hours.jpg",
+    imageAlt: "Warm orange café counter with takeaway cups and softly lit menu boards.",
   },
   {
     id: "morrow-coffee",
@@ -90,6 +94,8 @@ export const cafes: Cafe[] = [
     closesAt: "9:00 PM",
     verifiedDaysAgo: 2,
     color: "sage",
+    image: "/cafes/morrow-coffee.jpg",
+    imageAlt: "Airy industrial café with concrete walls, wooden tables, plants, and wide windows.",
   },
   {
     id: "blank-and-bloom",
@@ -105,7 +111,9 @@ export const cafes: Cafe[] = [
     openNow: true,
     closesAt: "11:00 PM",
     verifiedDaysAgo: 8,
-    color: "lavender",
+    color: "caramel",
+    image: "/cafes/blank-and-bloom.jpg",
+    imageAlt: "Dark green modern coffee bar with illuminated menus and a pastry display.",
   },
   {
     id: "afterglow-room",
@@ -122,6 +130,8 @@ export const cafes: Cafe[] = [
     closesAt: "12:00 AM",
     verifiedDaysAgo: 1,
     color: "terracotta",
+    image: "/cafes/afterglow-room.jpg",
+    imageAlt: "Intimate café window at night with glowing coffee signage and warm hanging lights.",
   },
 ];
 

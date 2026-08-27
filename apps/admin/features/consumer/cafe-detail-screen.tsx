@@ -13,9 +13,10 @@ export function CafeDetailScreen({ cafe }: { cafe: Cafe }) {
   return (
     <article className="consumer-screen cafe-detail-screen">
       <div className={`cafe-detail-hero cafe-tone-${cafe.color}`}>
+        <img src={cafe.image} alt={cafe.imageAlt} />
         <Link href="/app/discover" className="floating-action" aria-label="Back to discovery"><ArrowLeft size={20} /></Link>
         <button className={`floating-action save-detail${saved ? " is-saved" : ""}`} onClick={() => toggleSave(cafe.id)} aria-label={saved ? `Remove ${cafe.name} from saved` : `Save ${cafe.name}`}><Bookmark size={20} fill={saved ? "currentColor" : "none"} /></button>
-        <span className="consumer-kicker">{score}% VIBE MATCH</span><i aria-hidden="true" />
+        <span className="consumer-kicker">{score}% VIBE MATCH</span>
       </div>
       <div className="cafe-detail-copy">
         <span className="consumer-kicker">{cafe.neighborhood}</span>
