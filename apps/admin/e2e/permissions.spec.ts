@@ -1,2 +1,10 @@
 import { expect, test } from "@playwright/test";
-test("restricted screens expose no destructive shortcuts without context",async({page})=>{await page.goto("/subscriptions");await expect(page.getByRole("button",{name:"Resync"}).first()).toBeVisible();await expect(page.getByRole("button",{name:/refund/i})).toHaveCount(0);await page.goto("/audit");await expect(page.getByRole("heading",{name:"Audit log"})).toBeVisible();await expect(page.getByRole("button",{name:/delete/i})).toHaveCount(0)});
+
+test("restricted screens expose no destructive shortcuts without context", async ({ page }) => {
+  await page.goto("/subscriptions");
+  await expect(page.getByRole("button", { name: "Resync" }).first()).toBeVisible();
+  await expect(page.getByRole("button", { name: /refund/i })).toHaveCount(0);
+  await page.goto("/audit");
+  await expect(page.getByRole("heading", { name: "Audit log" })).toBeVisible();
+  await expect(page.getByRole("button", { name: /delete/i })).toHaveCount(0);
+});

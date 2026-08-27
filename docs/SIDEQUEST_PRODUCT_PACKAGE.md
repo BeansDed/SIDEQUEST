@@ -3,7 +3,7 @@
 **Product:** SIDEQUEST Café Discovery  
 **Direction:** Mobile-first consumer experience plus responsive operations platform  
 **Positioning:** Find the café that fits the moment  
-**Status:** Consumer mobile web app, admin platform, Figma system, and backend foundation implemented in demo-ready form
+**Status:** Native Expo app, consumer web app, admin platform, Figma system, and backend foundation implemented in demo-ready form
 
 ## 1. Executive summary
 
@@ -344,11 +344,13 @@ Overview, café list, café editor, taxonomy, featured placements, quest list, q
 
 ## 15. Visual system and reusable components
 
-The visual direction combines espresso, roast, oat, crema, sage, and restrained lavender. Lavender represents discovery, selection, quest progress, and delight rather than acting as a universal background.
+The consumer visual direction uses espresso, roasted caramel, oat, crema, and sage with no lavender. Real café photography, receipt-like utility labels, and a circular vibe dial provide the product signature. The admin platform uses its own compatible operations-focused token system.
 
-- **Display:** Sora
-- **Body:** Manrope
-- **Data and labels:** IBM Plex Mono
+- **Native consumer display:** Fraunces
+- **Native consumer body:** DM Sans
+- **Admin display:** Sora
+- **Admin body:** Manrope
+- **Admin data and labels:** IBM Plex Mono
 - **Spacing:** 4, 8, 12, 16, 20, 24, 32, 40, 48
 - **Radius:** 8, 12, 16, 22, pill
 - **Core components:** Buttons, text inputs, filters, badges, cards, navigation, map pins, café cards, quest cards, review tags, dialogs, toasts, tables, and system states
@@ -546,7 +548,7 @@ Launch in one dense city or university area where café data can be manually ver
 - Café, quest, moderation, operations, analytics, audit, and health admin modules
 - Responsive UI, automated tests, production build, and deployment configuration
 
-### Phase 2 — Consumer MVP — implemented in persistent demo mode
+### Phase 2 — Consumer MVP — implemented as native Expo and web clients in persistent demo mode
 
 - Onboarding, discovery, map/list, café detail, saves, collections, quests, reviews, social, profile, achievements, settings, and subscription presentation
 - Connect client to production Supabase project
@@ -581,7 +583,7 @@ Implemented in this repository:
 - Role-aware authentication boundary and capability model
 - Supabase schema, RLS policies, storage expectations, seed data, and contract tests
 - Café, quest, moderation, operations, analytics, staff, audit, and health workflows
-- Mobile-first consumer app with discovery filters, café details, saved collections, reviews, quests, XP, social, profile, settings, subscription, and resilient UI states
+- Native Expo/React Native app and zero-install web consumer with discovery filters, café details, saved collections, reviews, quests, XP, social, profile, settings, subscription presentation, and resilient UI states
 - Figma product screens, design tokens, typography/effect styles, reusable component states, and documented patterns
 
 Still required for a public production launch:
@@ -589,3 +591,4 @@ Still required for a public production launch:
 - A user-owned Supabase project and production credentials
 - Live database policy tests with Docker or a linked Supabase environment
 - Deployment accounts, domain, maps provider, email provider, monitoring, and legal/policy approval
+- Store-owner accounts and signing credentials for a distributable Android/iOS build
