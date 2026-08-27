@@ -13,7 +13,7 @@ The existing Next.js consumer experience remains a zero-install browser demo, an
 ## 2. Goals
 
 - Provide a polished, installable mobile experience that can run on a physical phone through Expo Go.
-- Preserve the approved café-themed experience: oat and cream surfaces, espresso actions, lavender highlights, restrained glass effects, and strong typography.
+- Preserve the approved café-themed experience: oat and cream surfaces, espresso actions, roasted-caramel highlights, sage status accents, restrained glass effects, and strong typography.
 - Support the complete capstone walkthrough without production credentials through deterministic seeded content and persistent offline state.
 - Cover the core customer loop: onboard, set a vibe, discover, inspect, save, visit, complete a quest, review, and earn XP.
 - Keep domain behavior and persistence isolated so Supabase can replace demo storage without rewriting screens.
@@ -101,18 +101,18 @@ Persistence is versioned. Malformed or incompatible stored state is discarded an
 
 The native app follows a “late-afternoon café receipt” direction:
 
-- **Oat canvas:** `#F7F0E7`
+- **Oat canvas:** `#F7F0E6`
 - **Paper:** `#FFFDFC`
-- **Espresso:** `#2A1712`
-- **Roast:** `#70442F`
-- **Lavender:** `#8D63EA`
-- **Lavender mist:** `#EEE7FF`
-- **Sage status:** `#6F8468`
-- **Crema border:** `#DED0C2`
+- **Espresso:** `#26150F`
+- **Roasted caramel:** `#A85F32`
+- **Caramel mist:** `#F1DFD1`
+- **Muted sage:** `#73806A`
+- **Crema:** `#E5C6A5`
+- **Crema border:** `#D8C4B0`
 
-Fraunces is reserved for expressive café names and milestone moments; DM Sans handles body and interface text. The signature element is a circular “vibe dial” on Home and Discover that turns mood selection into a tactile control instead of a generic filter sheet. Glass styling appears only on the floating bottom navigation and transient overlays.
+Lavender is not used. Fraunces is reserved for expressive café names and milestone moments; DM Sans handles body and interface text. The signature element is a circular “vibe dial” on Home and Discover that turns mood selection into a tactile control instead of a generic filter sheet. Glass styling appears only on the floating bottom navigation and transient overlays.
 
-Cards favor asymmetric editorial composition, real product copy, and compact metadata. Touch targets are at least 44 by 44 points. Text supports system font scaling without clipping. Color is never the only status indicator.
+Cards favor asymmetric editorial composition, real product copy, genuine café photography, and compact metadata. All café photography is downloaded into the repository from a source that permits product-demo reuse, uses descriptive alternative text, and is listed in an attribution file. Abstract color blocks and generated venue placeholders are not acceptable substitutes. Touch targets are at least 44 by 44 points. Text supports system font scaling without clipping. Color is never the only status indicator.
 
 ## 8. Native Capabilities and Safety
 
@@ -165,7 +165,8 @@ An EAS configuration will define development and preview profiles. Creating a si
 - A user can complete onboarding, filter cafés, open details, save a café, complete a quest, receive XP, submit a review, and change settings.
 - State survives an application reload and malformed saved data recovers safely.
 - Every primary screen includes appropriate loading, empty, and error behavior.
-- The interface uses the approved café visual direction and respects safe areas, font scaling, reduced motion, and 44-point touch targets.
+- The web and native interfaces use the same espresso, caramel, crema, oat, and sage system with no lavender, and respect safe areas, font scaling, reduced motion, and 44-point touch targets.
+- Café cards and detail galleries use locally stored real café photographs with descriptive alternative text and documented attribution; no abstract venue placeholders remain.
 - Unit/component tests, TypeScript checks, and Expo export verification pass.
 - Existing web consumer and admin routes continue to build and pass their current tests.
 - No secrets, signing keys, production credentials, or fabricated integrations are committed.
