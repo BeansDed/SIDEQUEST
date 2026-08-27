@@ -3,6 +3,10 @@ node_modules/
 coverage/
 playwright-report/
 test-results/
+.expo/
+dist/
+apps/mobile/android/
+apps/mobile/ios/
 .playwright-cli/
 .env
 .env.local
