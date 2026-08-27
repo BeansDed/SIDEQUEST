@@ -71,10 +71,10 @@ export function Sidebar({ role = "super_admin" }: { role?: StaffRole }) {
 
       <div className="sidebar-footer">
         <div className="avatar" aria-hidden="true">
-          AN
+          MS
         </div>
         <span>
-          <strong>Ardre N.</strong>
+          <strong>Mika S.</strong>
           <small>{role.replace("_", " ")}</small>
         </span>
       </div>

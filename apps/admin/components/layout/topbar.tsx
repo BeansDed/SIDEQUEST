@@ -1,14 +1,10 @@
 import { Bell, ChevronDown, Search } from "lucide-react";
 import Link from "next/link";
+import { NAV_ITEMS } from "./sidebar";
+import { can, type StaffRole } from "@/lib/roles";
 
-const quickLinks = [
-  ["Overview", "/overview"],
-  ["Cafés", "/cafes"],
-  ["Quests", "/quests"],
-  ["Reports", "/moderation"],
-] as const;
-
-export function Topbar() {
+export function Topbar({ role = "super_admin" }: { role?: StaffRole }) {
+  const quickLinks = NAV_ITEMS.filter((item) => can(role, item.capability));
   return (
     <header className="topbar">
       <details className="mobile-menu">
@@ -17,7 +13,7 @@ export function Topbar() {
           <ChevronDown aria-hidden="true" size={16} />
         </summary>
         <nav aria-label="Mobile admin navigation">
-          {quickLinks.map(([label, href]) => (
+          {quickLinks.map(({ label, href }) => (
             <Link href={href} key={href}>
               {label}
             </Link>

@@ -1,0 +1,15 @@
+{
+  "project": "SIDEQUEST Café Discovery",
+  "sourceOfTruth": "apps/admin/app/globals.css",
+  "visualDirection": "espresso, oat, crema, sage, restrained lavender",
+  "type": { "display": "Sora", "body": "Manrope", "data": "IBM Plex Mono" },
+  "implementedScreens": ["overview","cafes","cafe-editor","taxonomy","featured","quests","quest-builder","achievements","moderation","report-detail","users","announcements","subscriptions","analytics","staff","audit","health","login"],
+  "responsiveWidths": [390,768,1440],
+  "states": ["loading","empty","error","denied","stale","success","validation","disabled"],
+  "figmaFileUrl": "https://www.figma.com/design/gC1tMqwxJ0YKzavpPwflJZ",
+  "figmaFileKey": "gC1tMqwxJ0YKzavpPwflJZ",
+  "pages": ["Cover","Getting Started","Foundations","Components","Patterns","Admin Flows","Product Screens"],
+  "capturedScreenNodeIds": ["1:2","2:2","3:2","4:2","5:2","6:2"],
+  "componentNodeIds": {"button":"8:64","statusBadge":"8:73","textInput":"8:89","metricCard":"8:90","navigationItem":"8:100"},
+  "lastVerified": "2026-08-27"
+}

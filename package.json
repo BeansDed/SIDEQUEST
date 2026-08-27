@@ -9,6 +9,8 @@
     "test:shared": "npm --prefix packages/shared run test",
     "typecheck": "npm run typecheck:shared && npm run typecheck:admin",
     "typecheck:admin": "npm --prefix apps/admin run typecheck",
-    "typecheck:shared": "npm --prefix packages/shared run typecheck"
+    "typecheck:shared": "npm --prefix packages/shared run typecheck",
+    "e2e": "npm --prefix apps/admin run e2e",
+    "verify": "npm run test && npm run typecheck && npm run build"
   }
 }
