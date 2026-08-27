@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { View } from "react-native";
 
 import { colors } from "@/theme/tokens";
+import { ConsumerProvider } from "@/state/consumer-provider";
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -33,7 +34,9 @@ export default function RootLayout() {
   return (
     <>
       <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.oat } }} />
+      <ConsumerProvider>
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.oat } }} />
+      </ConsumerProvider>
     </>
   );
 }

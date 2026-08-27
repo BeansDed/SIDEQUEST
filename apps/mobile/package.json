@@ -55,6 +55,9 @@
   "private": true,
   "jest": {
     "preset": "jest-expo",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
     "testPathIgnorePatterns": ["/node_modules/", "/dist/"]
   }
 }
