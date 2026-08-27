@@ -30,7 +30,7 @@ Then open `http://localhost:3000`.
 - [Implementation plan](docs/superpowers/plans/2026-08-27-sidequest-admin-implementation.md)
 - [Editable Figma product file](https://www.figma.com/design/gC1tMqwxJ0YKzavpPwflJZ)
 
-The repository currently implements the complete admin platform and backend foundation. The consumer discovery client remains a separate implementation phase; its full scope, flows, screen inventory, and acceptance criteria are documented in the capstone package.
+The Figma file includes the café-themed token library, reusable component states, six implemented admin views, twenty mobile consumer screens, empty/loading/error states, and a wired primary prototype flow. The repository currently implements the complete admin platform and backend foundation. The consumer discovery client remains a separate code implementation phase; its full scope, flows, screen inventory, and acceptance criteria are documented in the capstone package.
 
 ## Preview
 
