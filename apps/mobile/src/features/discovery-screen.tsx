@@ -16,6 +16,8 @@ const vibes: Vibe[] = ["quiet", "warm", "creative", "garden", "minimal", "lively
 
 function CafeMap({ items, onOpen }: { items: typeof cafes; onOpen(id: string): void }) {
   if (Platform.OS !== "web") {
+    // Native maps cannot be evaluated by the web bundle, so load them only on device.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const maps = require("react-native-maps") as typeof import("react-native-maps");
     const MapView = maps.default;
     const Marker = maps.Marker;
