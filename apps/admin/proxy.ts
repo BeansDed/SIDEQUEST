@@ -1,10 +1,13 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-import { isPublicAppPath } from "@/lib/auth/routes";
+import { isLegacyConsumerPath, isPublicAppPath } from "@/lib/auth/routes";
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  if (isLegacyConsumerPath(pathname)) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
   if (process.env.NEXT_PUBLIC_APP_MODE !== "production" || (isPublicAppPath(pathname) && pathname !== "/login")) {
     return NextResponse.next();
   }

@@ -24,7 +24,24 @@ export async function loadConsumerState(storage: StorageAdapter): Promise<Consum
     const raw = await storage.getItem(STORAGE_KEY);
     if (!raw) return { ...initialConsumerState, hydrated: true };
     const parsed: unknown = JSON.parse(raw);
-    return isConsumerState(parsed) ? { ...parsed, hydrated: true, persistenceWarning: null } : { ...initialConsumerState, hydrated: true };
+    if (!isConsumerState(parsed)) return { ...initialConsumerState, hydrated: true };
+    return {
+      ...initialConsumerState,
+      ...parsed,
+      profile: {
+        ...initialConsumerState.profile,
+        ...(parsed.profile ?? {}),
+        displayName: parsed.profile?.displayName ?? parsed.name,
+      },
+      settings: { ...initialConsumerState.settings, ...(parsed.settings ?? {}) },
+      subscriptionStatus: parsed.subscriptionStatus ?? initialConsumerState.subscriptionStatus,
+      questHistory: parsed.questHistory ?? initialConsumerState.questHistory,
+      reviews: (parsed.reviews ?? []).map((review) => ({ ...review, createdAt: review.createdAt ?? new Date(0).toISOString() })),
+      recentCafeIds: parsed.recentCafeIds ?? initialConsumerState.recentCafeIds,
+      visitPlans: parsed.visitPlans ?? initialConsumerState.visitPlans,
+      hydrated: true,
+      persistenceWarning: null,
+    };
   } catch {
     return { ...initialConsumerState, hydrated: true };
   }

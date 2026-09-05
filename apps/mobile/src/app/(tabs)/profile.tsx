@@ -8,6 +8,7 @@ export default function ProfileRoute() {
       onOpenSettings={() => router.push("/settings")}
       onOpenPlus={() => router.push("/plus")}
       onOpenSocial={() => router.push("/social")}
+      onEditProfile={() => router.push("/flow/edit-profile")}
     />
   );
 }

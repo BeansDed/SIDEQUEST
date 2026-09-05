@@ -16,8 +16,9 @@ import { useEffect } from "react";
 
 import { BrandedLoading } from "@/components/branded-loading";
 import { ErrorBoundary } from "@/components/error-boundary";
-import { colors } from "@/theme/tokens";
-import { ConsumerProvider } from "@/state/consumer-provider";
+import { ConsumerProvider, useConsumer } from "@/state/consumer-provider";
+import { CafeProvider } from "@/data/cafe-provider";
+import { AppThemeProvider, useAppTheme } from "@/theme/app-theme";
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -32,14 +33,18 @@ export default function RootLayout() {
 
   if (!ready) return <BrandedLoading />;
 
-  return (
-    <>
-      <StatusBar style="dark" />
-      <ConsumerProvider>
-        <ErrorBoundary onReturnHome={() => router.replace("/(tabs)")}>
-          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.oat } }} />
-        </ErrorBoundary>
-      </ConsumerProvider>
-    </>
-  );
+  return <ConsumerProvider><AppThemeProvider><AppShell /></AppThemeProvider></ConsumerProvider>;
+}
+
+function AppShell() {
+  const { state } = useConsumer();
+  const { appearance, colors } = useAppTheme();
+  return <>
+    <StatusBar style={appearance === "dark" ? "light" : "dark"} backgroundColor={colors.paper} />
+    <CafeProvider enabled={state.hydrated && state.onboarded && state.settings.preciseLocation}>
+      <ErrorBoundary onReturnHome={() => router.replace("/(tabs)")}>
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.paper } }} />
+      </ErrorBoundary>
+    </CafeProvider>
+  </>;
 }

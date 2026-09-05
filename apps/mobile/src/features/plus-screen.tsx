@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { Screen } from "@/components/screen";
-import { colors, radii, typography } from "@/theme/tokens";
+import { useAppTheme, type AppPalette } from "@/theme/app-theme";
+import { radii, typography } from "@/theme/tokens";
 
 const benefits = [
   "More themed quest packs",
@@ -12,7 +13,8 @@ const benefits = [
   "Seasonal passport stamps",
 ];
 
-export function PlusScreen() {
+export function PlusScreen({ onManagePlan }: { onManagePlan?(): void } = {}) {
+  const { colors } = useAppTheme(); const styles = createStyles(colors);
   const [previewed, setPreviewed] = useState(false);
 
   return (
@@ -51,12 +53,16 @@ export function PlusScreen() {
       <Pressable onPress={() => setPreviewed(true)} style={styles.restore}>
         <Text style={styles.restoreText}>Restore purchase demo</Text>
       </Pressable>
+      <Pressable onPress={onManagePlan} style={styles.manage}>
+        <Text style={styles.manageText}>Manage demo plan</Text>
+        <Ionicons name="chevron-forward" size={18} color={colors.espresso} />
+      </Pressable>
     </Screen>
   );
 }
 
-const styles = StyleSheet.create({
-  hero: { alignItems: "center", paddingVertical: 28, paddingHorizontal: 18, borderRadius: radii.xl, backgroundColor: colors.espresso },
+const createStyles = (colors: AppPalette) => StyleSheet.create({
+  hero: { alignItems: "center", paddingVertical: 28, paddingHorizontal: 18, borderRadius: radii.xl, backgroundColor: colors.brandSurface },
   mark: { width: 92, height: 92, alignItems: "center", justifyContent: "center", borderWidth: 22, borderColor: "rgba(229,198,165,.16)", borderRadius: 46, backgroundColor: colors.caramel },
   kicker: { marginTop: 18, color: colors.crema, fontFamily: typography.bodyBold, fontSize: 10, letterSpacing: 1.3 },
   title: { maxWidth: 320, marginTop: 8, color: colors.white, fontFamily: typography.display, fontSize: 34, lineHeight: 38, textAlign: "center" },
@@ -74,8 +80,10 @@ const styles = StyleSheet.create({
   noticeCopy: { flex: 1 },
   noticeTitle: { color: colors.espresso, fontFamily: typography.bodyBold, fontSize: 11 },
   noticeText: { marginTop: 3, color: colors.inkMuted, fontFamily: typography.body, fontSize: 9, lineHeight: 14 },
-  primary: { minHeight: 54, alignItems: "center", justifyContent: "center", marginTop: 14, borderRadius: radii.md, backgroundColor: colors.espresso },
+  primary: { minHeight: 54, alignItems: "center", justifyContent: "center", marginTop: 14, borderRadius: radii.md, backgroundColor: colors.brandSurface },
   primaryText: { color: colors.white, fontFamily: typography.bodyBold, fontSize: 13 },
   restore: { minHeight: 48, alignItems: "center", justifyContent: "center", marginTop: 8 },
   restoreText: { color: colors.caramel, fontFamily: typography.bodyBold, fontSize: 11 },
+  manage: { minHeight: 52, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 4, borderWidth: 1, borderColor: colors.border, borderRadius: radii.md, backgroundColor: colors.paper },
+  manageText: { color: colors.espresso, fontFamily: typography.bodyBold, fontSize: 12 },
 });

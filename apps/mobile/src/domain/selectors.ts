@@ -1,4 +1,4 @@
-import type { Cafe, DiscoveryFilters, Preferences } from "./types";
+import type { Cafe, ConsumerState, DiscoveryFilters, Preferences } from "./types";
 
 export function filterCafes(items: Cafe[], filters: DiscoveryFilters): Cafe[] {
   const query = filters.search.trim().toLocaleLowerCase();
@@ -20,4 +20,20 @@ export function scoreCafe(cafe: Cafe, preferences: Preferences): number {
     cafe.averagePrice <= preferences.maxPrice,
   ];
   return Math.round((dimensions.filter(Boolean).length / dimensions.length) * 100);
+}
+
+export function selectRecentCafes(state: ConsumerState, items: Cafe[]): Cafe[] {
+  const byId = new Map(items.map((cafe) => [cafe.id, cafe]));
+  return state.recentCafeIds.flatMap((id) => {
+    const cafe = byId.get(id);
+    return cafe ? [cafe] : [];
+  });
+}
+
+export function selectCafeReviewSummary(state: ConsumerState, cafeId: string): { count: number; average: number } {
+  const ratings = state.reviews.filter((review) => review.cafeId === cafeId).map((review) => review.rating);
+  return {
+    count: ratings.length,
+    average: ratings.length ? ratings.reduce((total, rating) => total + rating, 0) / ratings.length : 0,
+  };
 }

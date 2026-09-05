@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "installCommand": "npm --prefix packages/shared ci && npm --prefix apps/admin ci",
+  "installCommand": "npm install --ignore-scripts --no-save next@16.3.3 && npm --prefix packages/shared ci && npm --prefix apps/admin ci",
   "buildCommand": "npm --prefix apps/admin run build",
   "outputDirectory": "apps/admin/.next"
 }

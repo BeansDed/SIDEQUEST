@@ -24,4 +24,30 @@ describe("native state persistence", () => {
   it("reports persistence failure without throwing away the session", async () => {
     await expect(saveConsumerState(memoryStorage(null, true), initialConsumerState)).resolves.toBe(false);
   });
+
+  it("merges new profile, preference, privacy, and subscription defaults into older version-one state", async () => {
+    const { profile: _profile, subscriptionStatus: _subscription, recentCafeIds: _recent, visitPlans: _plans, ...withoutNewTopLevel } = initialConsumerState;
+    const legacy = {
+      ...withoutNewTopLevel,
+      hydrated: false,
+      settings: {
+        reducedMotion: false,
+        notifications: true,
+        socialVisibility: "friends" as const,
+      },
+    };
+
+    const loaded = await loadConsumerState(memoryStorage(JSON.stringify(legacy)));
+
+    expect(loaded.profile.handle).toBe("@beansoutside");
+    expect(loaded.settings).toMatchObject({
+      appearance: "system",
+      largerText: false,
+      preciseLocation: true,
+      screenReaderLabels: true,
+    });
+    expect(loaded.subscriptionStatus).toBe("none");
+    expect(loaded.recentCafeIds).toEqual([]);
+    expect(loaded.visitPlans).toEqual({});
+  });
 });

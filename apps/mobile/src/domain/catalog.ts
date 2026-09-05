@@ -40,17 +40,26 @@ export const cafes: Cafe[] = [
 ];
 
 export const quests: Quest[] = [
-  { id: "study-sprint", title: "Study sprint roulette", description: "Let a new drink choose your focus timer.", durationMinutes: 45, maxCost: 250, xp: 120, cafeId: "soft-hours", steps: ["Order something you have not tried.", "Choose one task before the drink arrives.", "Finish the task before the ice melts."] },
+  { id: "study-sprint", title: "Study sprint roulette", description: "Let a new drink choose your focus timer.", durationMinutes: 45, maxCost: 250, xp: 120, steps: ["Order something you have not tried.", "Choose one task before the drink arrives.", "Finish the task before the ice melts."] },
   { id: "local-recommendation", title: "Trust the barista", description: "Try one recommendation without reading reviews first.", durationMinutes: 30, maxCost: 220, xp: 90, steps: ["Ask for a house recommendation.", "Try it before checking reviews.", "Save one honest vibe tag."] },
   { id: "three-stop-reset", title: "Three-stop reset", description: "Walk three blocks, notice three details, then choose a quiet seat.", durationMinutes: 60, maxCost: 300, xp: 150, steps: ["Walk three blocks without rushing.", "Notice three details on the way.", "Choose a seat and write one sentence."] },
 ];
 
 export const initialConsumerState: ConsumerState = {
   version: 1, hydrated: false, onboarded: false, name: "Mika",
+  profile: { displayName: "Mika", handle: "@beansoutside", homeArea: "Makati", bio: "Quiet cafés, matcha, and late-night plans." },
   preferences: { vibes: ["quiet", "warm"], useCases: ["study", "solo"], maxPrice: 250 },
   filters: { search: "", vibes: [], useCases: [], maxPrice: 500, maxDistanceKm: 5, openNow: false },
-  collections: [{ id: "quiet-resets", name: "Quiet resets", cafeIds: ["soft-hours"], visibility: "private" }],
-  activeQuestId: null, questStep: 0, completedQuestIds: [], xp: 1840, reviews: [],
-  settings: { reducedMotion: false, notifications: true, socialVisibility: "friends" },
+  collections: [{ id: "quiet-resets", name: "Quiet resets", cafeIds: [], visibility: "private" }],
+  activeQuestId: null, questStep: 0, completedQuestIds: [], questHistory: [], xp: 1840, reviews: [], recentCafeIds: [], visitPlans: {},
+  settings: {
+    reducedMotion: false, notifications: true, socialVisibility: "friends", appearance: "system", language: "en",
+    cafeNotifications: true, questNotifications: true, friendNotifications: true, weeklyDigest: false,
+    appSounds: true, questSounds: true, buttonHaptics: true, celebrationHaptics: false,
+    crossFadeTransitions: true, autoPlayCelebrations: false, largerText: false, highContrast: false,
+    screenReaderLabels: true, colorBlindCues: true, preciseLocation: true, personalizedDiscovery: true,
+    activityAnalytics: false, friendSuggestions: true, blockReportedAccount: true, twoFactorEnabled: false,
+  },
+  subscriptionStatus: "none",
   persistenceWarning: null,
 };

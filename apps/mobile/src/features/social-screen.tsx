@@ -4,16 +4,18 @@ import { StyleSheet, Text, View } from "react-native";
 import { Screen } from "@/components/screen";
 import { StateView } from "@/components/state-view";
 import { useConsumer } from "@/state/consumer-provider";
-import { colors, radii, typography } from "@/theme/tokens";
-
-const activity = [
-  { initials: "BR", name: "Bea", message: "Bea found a quiet window seat.", place: "Soft Hours · 18 min ago", tone: colors.caramel },
-  { initials: "JM", name: "Jules", message: "Jules finished Trust the barista.", place: "+90 XP · Morrow Coffee", tone: colors.sage },
-  { initials: "NC", name: "Nico", message: "Nico saved Blank & Bloom.", place: "Study spots · Yesterday", tone: colors.espressoSoft },
-];
+import { useAppTheme, type AppPalette } from "@/theme/app-theme";
+import { radii, typography } from "@/theme/tokens";
 
 export function SocialScreen() {
+  const { colors } = useAppTheme(); const styles = createStyles(colors);
   const { state } = useConsumer();
+  const savedCount = new Set(state.collections.flatMap((collection) => collection.cafeIds)).size;
+  const activity = [
+    ...state.reviews.slice(-2).map((review) => ({ initials: state.name.slice(0, 2).toUpperCase(), name: review.id, message: `${state.name} posted a ${review.rating}-star vibe check.`, place: review.note, tone: colors.caramel })),
+    ...state.questHistory.slice(-2).map((entry) => ({ initials: state.name.slice(0, 2).toUpperCase(), name: `${entry.questId}-${entry.completedAt}`, message: `${state.name} finished a SIDEQUEST.`, place: `+${entry.xp} XP · saved on this device`, tone: colors.sage })),
+    ...(savedCount ? [{ initials: state.name.slice(0, 2).toUpperCase(), name: "saved-summary", message: `${state.name} has ${savedCount} saved café${savedCount === 1 ? "" : "s"}.`, place: "Private collection activity", tone: colors.espressoSoft }] : []),
+  ];
 
   if (state.settings.socialVisibility === "private") {
     return (
@@ -38,7 +40,7 @@ export function SocialScreen() {
         <Text style={styles.privacyText}>Friends only · location is never shared live</Text>
       </View>
       <View style={styles.list}>
-        {activity.map((item) => (
+        {activity.length === 0 ? <StateView title="No shared activity yet." message="Complete a quest, save a café, or post a vibe check to build your device-local activity." /> : activity.map((item) => (
           <View key={item.name} style={styles.card}>
             <View style={[styles.avatar, { backgroundColor: item.tone }]}>
               <Text style={styles.avatarText}>{item.initials}</Text>
@@ -54,7 +56,7 @@ export function SocialScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: AppPalette) => StyleSheet.create({
   kicker: { color: colors.caramel, fontFamily: typography.bodyBold, fontSize: 10, letterSpacing: 1 },
   title: { maxWidth: 340, marginTop: 8, color: colors.espresso, fontFamily: typography.display, fontSize: 34, lineHeight: 38 },
   subtitle: { marginTop: 7, color: colors.inkMuted, fontFamily: typography.body, fontSize: 12, lineHeight: 18 },

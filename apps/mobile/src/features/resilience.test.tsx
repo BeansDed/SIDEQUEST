@@ -1,7 +1,8 @@
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import { Text } from "react-native";
 
-import { initialConsumerState } from "@/domain/catalog";
+import { cafes, initialConsumerState } from "@/domain/catalog";
+import { CafeProvider } from "@/data/cafe-provider";
 import { ConsumerProvider, useConsumer } from "@/state/consumer-provider";
 import { ErrorBoundary } from "@/components/error-boundary";
 
@@ -9,6 +10,7 @@ import { NotFoundScreen } from "./not-found-screen";
 import { PlusScreen } from "./plus-screen";
 import { ProfileScreen } from "./profile-screen";
 import { SettingsScreen } from "./settings-screen";
+import { SavedScreen } from "./saved-screen";
 import { SocialScreen } from "./social-screen";
 
 function StateProbe() {
@@ -22,6 +24,10 @@ function StateProbe() {
 
 function BrokenScreen(): never {
   throw new Error("render failed");
+}
+
+function CafeFixture({ children }: { children: React.ReactNode }) {
+  return <CafeProvider apiBaseUrl="https://test.invalid" locationClient={{ requestPermission: async () => ({ granted: true, canAskAgain: true }), getPosition: async () => ({ latitude: 14.56, longitude: 121.02 }) }} loadCafes={async () => cafes}>{children}</CafeProvider>;
 }
 
 let shouldFailOnce = true;
@@ -76,12 +82,14 @@ describe("native profile and resilient states", () => {
     const onOpenSettings = jest.fn();
     const onOpenPlus = jest.fn();
     const onOpenSocial = jest.fn();
+    const onEditProfile = jest.fn();
     const view = await render(
       <ConsumerProvider initialState={{ ...initialConsumerState, hydrated: true }}>
         <ProfileScreen
           onOpenSettings={onOpenSettings}
           onOpenPlus={onOpenPlus}
           onOpenSocial={onOpenSocial}
+          onEditProfile={onEditProfile}
         />
       </ConsumerProvider>,
     );
@@ -89,10 +97,40 @@ describe("native profile and resilient states", () => {
     await fireEvent.press(view.getByText("Settings"));
     await fireEvent.press(view.getByText("See SIDEQUEST+"));
     await fireEvent.press(view.getByText("Friend activity"));
+    await fireEvent.press(view.getByText("Edit profile"));
 
     expect(onOpenSettings).toHaveBeenCalledTimes(1);
     expect(onOpenPlus).toHaveBeenCalledTimes(1);
     expect(onOpenSocial).toHaveBeenCalledTimes(1);
+    expect(onEditProfile).toHaveBeenCalledTimes(1);
+  }, 30000);
+
+  it("opens the completed preference, privacy, security, and support flows from settings", async () => {
+    const onOpenFlow = jest.fn();
+    const view = await render(
+      <ConsumerProvider initialState={{ ...initialConsumerState, hydrated: true }}>
+        <SettingsScreen onOpenFlow={onOpenFlow} />
+      </ConsumerProvider>,
+    );
+
+    await fireEvent.press(view.getByText("Accessibility"));
+    await fireEvent.press(view.getByText("Privacy & safety"));
+    await fireEvent.press(view.getByText("Two-factor security"));
+    await fireEvent.press(view.getByText("Help & support"));
+
+    expect(onOpenFlow).toHaveBeenNthCalledWith(1, "accessibility");
+    expect(onOpenFlow).toHaveBeenNthCalledWith(2, "privacy-controls");
+    expect(onOpenFlow).toHaveBeenNthCalledWith(3, "two-factor-setup");
+    expect(onOpenFlow).toHaveBeenNthCalledWith(4, "help-center");
+  }, 30000);
+
+  it("opens real local subscription management from Plus", async () => {
+    const onManagePlan = jest.fn();
+    const view = await render(<PlusScreen onManagePlan={onManagePlan} />);
+
+    await fireEvent.press(view.getByText("Manage demo plan"));
+
+    expect(onManagePlan).toHaveBeenCalledTimes(1);
   }, 30000);
 
   it("returns home from an unknown route", async () => {
@@ -164,4 +202,30 @@ describe("native profile and resilient states", () => {
     consoleSpy.mockRestore();
     warningSpy.mockRestore();
   }, 30000);
+
+  it("requires confirmation before deleting a collection", async () => {
+    const state = { ...initialConsumerState, hydrated: true, collections: [
+      { id: "first", name: "Quiet resets", cafeIds: [], visibility: "private" as const },
+      { id: "date", name: "Date ideas", cafeIds: ["soft-hours", "morrow-coffee"], visibility: "private" as const },
+    ] };
+    const view = await render(<ConsumerProvider initialState={state}><CafeFixture><SavedScreen onOpenCafe={() => undefined} /></CafeFixture></ConsumerProvider>);
+
+    await fireEvent.press(view.getByLabelText("Delete Date ideas"));
+    expect(view.getByText("Delete Date ideas?")).toBeTruthy();
+    expect(view.getByText("2 saved cafés will return to your other collections when applicable.")).toBeTruthy();
+    await fireEvent.press(view.getByText("Keep collection"));
+    expect(view.queryByText("Delete Date ideas?")).toBeNull();
+  });
+
+  it("exposes save and cancel while renaming a collection", async () => {
+    const state = { ...initialConsumerState, hydrated: true, collections: [
+      initialConsumerState.collections[0],
+      { id: "date", name: "Date ideas", cafeIds: [], visibility: "private" as const },
+    ] };
+    const view = await render(<ConsumerProvider initialState={state}><CafeFixture><SavedScreen onOpenCafe={() => undefined} /></CafeFixture></ConsumerProvider>);
+
+    await fireEvent.press(view.getByLabelText("Rename Date ideas"));
+    expect(view.getByLabelText("Save Date ideas name")).toBeTruthy();
+    expect(view.getByLabelText("Cancel Date ideas rename")).toBeTruthy();
+  });
 });

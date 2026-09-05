@@ -5,12 +5,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Chip } from "@/components/chip";
 import type { UseCase, Vibe } from "@/domain/types";
 import { useConsumer } from "@/state/consumer-provider";
-import { colors, radii, typography } from "@/theme/tokens";
+import { useAppTheme, type AppPalette } from "@/theme/app-theme";
+import { radii, typography } from "@/theme/tokens";
 
 const vibes: Vibe[] = ["quiet", "warm", "creative", "garden", "minimal", "lively"];
 const uses: UseCase[] = ["study", "solo", "date", "friends", "food"];
 
 export function OnboardingScreen({ onDone }: { onDone(): void }) {
+  const { colors } = useAppTheme(); const styles = createStyles(colors);
   const { state, completeOnboarding } = useConsumer();
   const [name, setName] = useState(state.name);
   const [selectedVibes, setSelectedVibes] = useState<Vibe[]>(state.preferences.vibes);
@@ -37,7 +39,7 @@ export function OnboardingScreen({ onDone }: { onDone(): void }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: AppPalette) => StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.oat },
   content: { padding: 24, paddingBottom: 50 },
   brand: { color: colors.caramel, fontFamily: typography.bodyBold, fontSize: 12, letterSpacing: 1.8 },
@@ -46,6 +48,6 @@ const styles = StyleSheet.create({
   input: { minHeight: 54, marginTop: 28, paddingHorizontal: 16, borderWidth: 1, borderColor: colors.border, borderRadius: radii.md, color: colors.espresso, backgroundColor: colors.paper, fontFamily: typography.bodyMedium },
   label: { marginTop: 28, marginBottom: 12, color: colors.espresso, fontFamily: typography.displaySemibold, fontSize: 17 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  button: { minHeight: 56, alignItems: "center", justifyContent: "center", marginTop: 34, borderRadius: radii.md, backgroundColor: colors.espresso },
+  button: { minHeight: 56, alignItems: "center", justifyContent: "center", marginTop: 34, borderRadius: radii.md, backgroundColor: colors.brandSurface },
   buttonText: { color: colors.white, fontFamily: typography.bodyBold, fontSize: 14 },
 });

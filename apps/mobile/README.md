@@ -59,7 +59,18 @@ npm run mobile:ios
 npm run mobile:web
 ```
 
-The web preview is useful for layout review. Device-only behavior such as native maps and the system image picker must still be checked in Expo Go or an emulator.
+The web preview is useful for layout review. Device-only behavior such as foreground location, the native Google map, and the system image picker must still be checked in the APK, Expo Go, or an emulator.
+
+## Live Google café data
+
+The mobile app does not ship a café demo fallback. Home, Discover, Saved, and café details use the phone's foreground location and the Next.js `/api/places/*` proxy, which keeps the Google Places web-service key out of the APK.
+
+1. Enable **Places API (New)** and **Maps SDK for Android** in a billing-enabled Google Cloud project.
+2. Set `GOOGLE_PLACES_API_KEY` on the deployed Next.js backend. Restrict it to Places API (New) and the backend's allowed server environment.
+3. Set `EXPO_PUBLIC_SIDEQUEST_API_URL` for the mobile build to the deployed backend URL.
+4. Set `GOOGLE_MAPS_ANDROID_API_KEY` for the mobile build. Restrict it to Maps SDK for Android, package `app.sidequest.cafe`, and the release certificate SHA-1.
+
+If any live-data configuration is absent, the app shows a configuration error and never substitutes invented cafés.
 
 ## Verification
 
@@ -111,7 +122,7 @@ Expo Go is the fastest no-signing preview. A development build supports native m
 
 ## Demo boundaries
 
-- Café, quest, friend, and activity data are seeded locally.
+- Café listings, photos, ratings, hours, addresses, and coordinates come from Google Places near the device's current location. Quests, friend activity, and user preferences remain local until their server modules are connected.
 - Authentication, Supabase synchronization, real push delivery, live payments, and real-time messaging are intentionally not connected.
 - Location is optional and there is no background tracking.
 - Directions explicitly hand off to the platform maps application.

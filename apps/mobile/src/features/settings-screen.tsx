@@ -3,8 +3,10 @@ import { useState } from "react";
 import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 
 import { Screen } from "@/components/screen";
+import type { CompletionFlowSlug } from "@/domain/completion-flows";
 import { useConsumer } from "@/state/consumer-provider";
-import { colors, radii, typography } from "@/theme/tokens";
+import { useAppTheme, type AppPalette } from "@/theme/app-theme";
+import { radii, typography } from "@/theme/tokens";
 
 function SettingRow({
   icon,
@@ -17,6 +19,7 @@ function SettingRow({
   description: string;
   control: React.ReactNode;
 }) {
+  const { colors } = useAppTheme(); const styles = createStyles(colors);
   return (
     <View style={styles.row}>
       <View style={styles.rowIcon}>
@@ -31,7 +34,21 @@ function SettingRow({
   );
 }
 
-export function SettingsScreen() {
+const destinations: { title: string; description: string; icon: keyof typeof Ionicons.glyphMap; slug: CompletionFlowSlug }[] = [
+  { title: "Notification preferences", description: "Café, quest, friend, and weekly updates.", icon: "notifications-outline", slug: "notification-preferences" },
+  { title: "Appearance", description: "Light, dark, or your device setting.", icon: "moon-outline", slug: "appearance" },
+  { title: "Language & region", description: "Language and local display formats.", icon: "language-outline", slug: "language" },
+  { title: "Sound & haptics", description: "App sounds and touch feedback.", icon: "volume-medium-outline", slug: "sound-haptics" },
+  { title: "Accessibility", description: "Text, contrast, motion, and assistive labels.", icon: "accessibility-outline", slug: "accessibility" },
+  { title: "Privacy & safety", description: "Location, analytics, and suggestions.", icon: "shield-checkmark-outline", slug: "privacy-controls" },
+  { title: "Two-factor security", description: "Authenticator and recovery codes.", icon: "key-outline", slug: "two-factor-setup" },
+  { title: "Export my data", description: "Prepare a portable demo export.", icon: "download-outline", slug: "export-data" },
+  { title: "Delete account", description: "Review permanent local deletion.", icon: "trash-outline", slug: "delete-account" },
+  { title: "Help & support", description: "FAQs, contact, and safety reporting.", icon: "help-circle-outline", slug: "help-center" },
+];
+
+export function SettingsScreen({ onOpenFlow }: { onOpenFlow?(slug: CompletionFlowSlug): void } = {}) {
+  const { colors } = useAppTheme(); const styles = createStyles(colors);
   const { state, updateSettings, reset } = useConsumer();
   const [confirmingReset, setConfirmingReset] = useState(false);
 
@@ -115,6 +132,22 @@ export function SettingsScreen() {
         </Text>
       </View>
 
+      <Text style={styles.sectionLabel}>MORE CONTROLS</Text>
+      <View style={styles.linkCard}>
+        {destinations.map((destination) => (
+          <Pressable key={destination.slug} onPress={() => onOpenFlow?.(destination.slug)} style={styles.linkRow}>
+            <View style={styles.rowIcon}>
+              <Ionicons name={destination.icon} size={20} color={destination.slug === "delete-account" ? colors.danger : colors.caramel} />
+            </View>
+            <View style={styles.rowCopy}>
+              <Text style={styles.rowTitle}>{destination.title}</Text>
+              <Text style={styles.rowDescription}>{destination.description}</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={colors.inkMuted} />
+          </Pressable>
+        ))}
+      </View>
+
       {confirmingReset ? (
         <View style={styles.resetConfirm}>
           <Text style={styles.resetTitle}>Reset everything?</Text>
@@ -137,7 +170,7 @@ export function SettingsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: AppPalette) => StyleSheet.create({
   kicker: { color: colors.caramel, fontFamily: typography.bodyBold, fontSize: 10, letterSpacing: 1 },
   title: { maxWidth: 330, marginTop: 8, color: colors.espresso, fontFamily: typography.display, fontSize: 34, lineHeight: 38 },
   warning: { flexDirection: "row", gap: 10, marginTop: 16, padding: 13, borderRadius: radii.md, backgroundColor: "#F8E7E1" },
@@ -153,11 +186,11 @@ const styles = StyleSheet.create({
   privacyHeading: { flexDirection: "row", alignItems: "center", gap: 12 },
   segmented: { flexDirection: "row", gap: 6, marginTop: 14, padding: 4, borderRadius: 14, backgroundColor: colors.oat },
   segment: { minHeight: 44, flex: 1, alignItems: "center", justifyContent: "center", borderRadius: 11 },
-  segmentSelected: { backgroundColor: colors.espresso },
+  segmentSelected: { backgroundColor: colors.brandSurface },
   segmentText: { color: colors.inkMuted, fontFamily: typography.bodyBold, fontSize: 11 },
   segmentTextSelected: { color: colors.white },
   note: { flexDirection: "row", gap: 10, padding: 15, borderRadius: radii.md, backgroundColor: colors.caramelMist },
-  noteText: { flex: 1, color: colors.espressoSoft, fontFamily: typography.body, fontSize: 11, lineHeight: 17 },
+  noteText: { flex: 1, color: colors.inkMuted, fontFamily: typography.body, fontSize: 11, lineHeight: 17 },
   resetButton: { minHeight: 50, alignItems: "center", justifyContent: "center", marginTop: 22, borderWidth: 1, borderColor: colors.danger, borderRadius: radii.md },
   resetButtonText: { color: colors.danger, fontFamily: typography.bodyBold, fontSize: 12 },
   resetConfirm: { marginTop: 22, padding: 18, borderWidth: 1, borderColor: colors.danger, borderRadius: radii.lg, backgroundColor: colors.paper },
@@ -167,4 +200,6 @@ const styles = StyleSheet.create({
   secondaryText: { color: colors.espresso, fontFamily: typography.bodyBold, fontSize: 11 },
   dangerButton: { minHeight: 48, flex: 1, alignItems: "center", justifyContent: "center", borderRadius: radii.md, backgroundColor: colors.danger },
   dangerText: { color: colors.white, fontFamily: typography.bodyBold, fontSize: 11 },
+  linkCard: { overflow: "hidden", borderWidth: 1, borderColor: colors.border, borderRadius: radii.lg, backgroundColor: colors.paper },
+  linkRow: { minHeight: 76, flexDirection: "row", alignItems: "center", gap: 12, padding: 13, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border },
 });

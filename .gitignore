@@ -16,3 +16,7 @@ apps/mobile/ios/
 *.tsbuildinfo
 playwright-report/
 test-results/
+
+.vercel
+apps/admin/artifacts/
+apps/admin/landing-*.png
